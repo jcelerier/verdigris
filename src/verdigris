@@ -1,0 +1,37 @@
+#pragma once
+#include "wobjectdefs.h"
+
+#ifndef Q_MOC_RUN
+// Macro for signals exported with the preprocessor
+#if defined(Q_CC_MSVC)
+#define E_SIGNAL3(bit, export, ...) W_MACRO_MSVC_EXPAND(W_SIGNAL2(__VA_ARGS__, 0))
+#define E_SIGNAL2(EXPORT_MACRO, EXPORTS_MACRO, ...) E_SIGNAL3(EXPORT_MACRO, EXPORTS_MACRO,  __VA_ARGS__)
+#define E_SIGNAL(EXPORT_MACRO, ...) E_SIGNAL2(EXPORT_MACRO ## S, EXPORT_MACRO, __VA_ARGS__)
+#else
+
+// When the EXPORTS_MACRO isn't defined or is 0
+#define E_SIGNAL_0(...) ;
+
+// When the EXPORTS_MACRO is defined
+#define E_SIGNAL_1(EXPORT_MACRO, ...) EXPORT_MACRO W_MACRO_MSVC_EXPAND(W_SIGNAL2(__VA_ARGS__, 0))
+
+#define E_SIGNAL3(bit, export, ...) W_MACRO_MSVC_EXPAND(E_SIGNAL_ ## bit(export, __VA_ARGS__))
+#define E_SIGNAL2(EXPORT_MACRO, EXPORTS_MACRO, ...) E_SIGNAL3(EXPORT_MACRO, EXPORTS_MACRO,  __VA_ARGS__)
+#define E_SIGNAL(EXPORT_MACRO, ...) E_SIGNAL2(EXPORT_MACRO ## S, EXPORT_MACRO, __VA_ARGS__)
+
+#endif
+
+// Advanced "PROPERTY" macro which defines an additional compile-time reflection struct
+#define PROPERTY(...) W_MACRO_MSVC_EXPAND(PROPERTY2(__VA_ARGS__))
+
+#define PROPERTY2(TYPE, NAME, ...)                                                        \
+  W_PROPERTY(TYPE, NAME, __VA_ARGS__)                                                     \
+  struct p_ ## NAME {                                                                     \
+    using param_type = TYPE;                                                              \
+    using model_type = W_ThisType;                                                        \
+    static constexpr auto name = #NAME ;                                                  \
+    static constexpr auto get() { constexpr auto x = std::get<0>(std::make_tuple(__VA_ARGS__)); return x; }     \
+    static constexpr auto set() { constexpr auto x = std::get<1>(std::make_tuple(__VA_ARGS__)); return x; }     \
+    static constexpr auto notify() { constexpr auto x = std::get<3>(std::make_tuple(__VA_ARGS__)); return x; }  \
+  };
+#endif
