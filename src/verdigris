@@ -34,4 +34,72 @@
     static constexpr auto set() { constexpr auto x = std::get<1>(std::make_tuple(__VA_ARGS__)); return x; }     \
     static constexpr auto notify() { constexpr auto x = std::get<3>(std::make_tuple(__VA_ARGS__)); return x; }  \
   };
+
+
+
+#define W_INLINE_PROPERTY_VALUE(Type, Name, Init, Get, Set, Notify) \
+  private:                                         \
+  Type m_ ## Name Init;                            \
+  public:                                          \
+  Type Get() const noexcept { return m_ ## Name; } \
+  void Set(Type m)                                 \
+  {                                                \
+    if (m != m_ ## Name)                           \
+    {                                              \
+      m_ ## Name = m;                              \
+      Notify(m);                                   \
+    }                                              \
+  } W_SLOT(Set)                                    \
+  void Notify(Type v) W_SIGNAL(Notify, v)          \
+  W_PROPERTY(Type, Name, &W_ThisType::Get, &W_ThisType::Set, W_Notify, &W_ThisType::Notify)
+
+#define W_INLINE_PROPERTY_CREF(Type, Name, Init, Get, Set, Notify) \
+  private:                                                \
+  Type m_ ## Name Init;                                   \
+  public:                                                 \
+  const Type& Get() const noexcept { return m_ ## Name; } \
+  void Set(const Type& m)                                 \
+  {                                                       \
+    if (m != m_ ## Name)                                  \
+    {                                                     \
+      m_ ## Name = m;                                     \
+      Notify(m);                                          \
+    }                                                     \
+  } W_SLOT(Set)                                           \
+  void Notify(const Type& v) W_SIGNAL(Notify, v)          \
+  W_PROPERTY(Type, Name, &W_ThisType::Get, &W_ThisType::Set, W_Notify, &W_ThisType::Notify)
+
+#define INLINE_PROPERTY_VALUE(Type, Name, Init, Get, Set, Notify) \
+  private:                                         \
+  Type m_ ## Name Init;                            \
+  public:                                          \
+  Type Get() const noexcept { return m_ ## Name; } \
+  void Set(Type m)                                 \
+  {                                                \
+    if (m != m_ ## Name)                           \
+    {                                              \
+      m_ ## Name = m;                              \
+      Notify(m);                                   \
+    }                                              \
+  } W_SLOT(Set)                                    \
+  void Notify(Type v) W_SIGNAL(Notify, v)          \
+  PROPERTY(Type, Name, &W_ThisType::Get, &W_ThisType::Set, W_Notify, &W_ThisType::Notify)
+
+#define INLINE_PROPERTY_CREF(Type, Name, Init, Get, Set, Notify) \
+  private:                                                \
+  Type m_ ## Name Init;                                   \
+  public:                                                 \
+  const Type& Get() const noexcept { return m_ ## Name; } \
+  void Set(const Type& m)                                 \
+  {                                                       \
+    if (m != m_ ## Name)                                  \
+    {                                                     \
+      m_ ## Name = m;                                     \
+      Notify(m);                                          \
+    }                                                     \
+  } W_SLOT(Set)                                           \
+  void Notify(const Type& v) W_SIGNAL(Notify, v)          \
+  PROPERTY(Type, Name, &W_ThisType::Get, &W_ThisType::Set, W_Notify, &W_ThisType::Notify)
+
+
 #endif
