@@ -24,15 +24,20 @@
 // Advanced "PROPERTY" macro which defines an additional compile-time reflection struct
 #define PROPERTY(...) W_MACRO_MSVC_EXPAND(PROPERTY2(__VA_ARGS__))
 
-#define PROPERTY2(TYPE, NAME, ...)                                                        \
-  W_PROPERTY(TYPE, NAME, __VA_ARGS__)                                                     \
-  struct p_ ## NAME {                                                                     \
-    using param_type = TYPE;                                                              \
-    using model_type = W_ThisType;                                                        \
-    static constexpr auto name = #NAME ;                                                  \
-    static constexpr auto get() { constexpr auto x = std::get<0>(std::make_tuple(__VA_ARGS__)); return x; }     \
-    static constexpr auto set() { constexpr auto x = std::get<1>(std::make_tuple(__VA_ARGS__)); return x; }     \
-    static constexpr auto notify() { constexpr auto x = std::get<3>(std::make_tuple(__VA_ARGS__)); return x; }  \
+#define W_GET_ARG_0(_0, ...) _0
+#define W_GET_ARG_1(_0, _1, ...) _1
+#define W_GET_ARG_2(_0, _1, _2, ...) _2
+#define W_GET_ARG_3(_0, _1, _2, _3, ...) _3
+
+#define PROPERTY2(TYPE, NAME, ...)                                 \
+  W_PROPERTY(TYPE, NAME, __VA_ARGS__)                              \
+  struct p_ ## NAME {                                              \
+    using param_type = TYPE;                                       \
+    using model_type = W_ThisType;                                 \
+    static const constexpr auto name = #NAME ;                     \
+    static const constexpr auto get = W_GET_ARG_0(__VA_ARGS__, 0);    \
+    static const constexpr auto set = W_GET_ARG_1(__VA_ARGS__, 0);    \
+    static const constexpr auto notify = W_GET_ARG_3(__VA_ARGS__, 0); \
   };
 
 
