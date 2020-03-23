@@ -35,9 +35,9 @@
     using param_type = TYPE;                                       \
     using model_type = W_ThisType;                                 \
     static const constexpr auto name = #NAME ;                     \
-    static const constexpr auto get = W_GET_ARG_0(__VA_ARGS__, 0);    \
-    static const constexpr auto set = W_GET_ARG_1(__VA_ARGS__, 0);    \
-    static const constexpr auto notify = W_GET_ARG_3(__VA_ARGS__, 0); \
+    static const constexpr auto get = W_MACRO_MSVC_EXPAND(W_GET_ARG_0(__VA_ARGS__, 0));   \
+    static const constexpr auto set = W_MACRO_MSVC_EXPAND(W_GET_ARG_1(__VA_ARGS__, 0));   \
+    static const constexpr auto notify = W_MACRO_MSVC_EXPAND(W_GET_ARG_3(__VA_ARGS__, 0)); \
   };
 
 
