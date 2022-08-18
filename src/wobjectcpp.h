@@ -1,3 +1,6 @@
+#ifndef VERDIGRIS_WOBJECTCPP_H
+#define VERDIGRIS_WOBJECTCPP_H
+
 #pragma once
 #include "wobjectdefs.h"
 
@@ -268,3 +271,5 @@ constexpr auto makeFlagInfo(StringView name, StringView enumAliasName, w_interna
 #define W_CPP_FLAG_NS(type, a) \
     W_STATE_APPEND_NS(EnumState, a<type>::flagInfo) \
     Q_FLAG_NS(type)
+
+#endif
