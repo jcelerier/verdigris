@@ -20,6 +20,9 @@
  *  License along with this program.
  *  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef VERDIGRIS_WOBJECTDEFS_H
+#define VERDIGRIS_WOBJECTDEFS_H
+
 #pragma once
 
 #ifndef Q_MOC_RUN // don't define anything when moc is run
@@ -1033,4 +1036,6 @@ W_REGISTER_ARGTYPE(const char*)
 #define W_FLAG(...)
 #define W_ENUM(...)
 #define W_DECLARE_FLAGS(...)
+#endif
+
 #endif

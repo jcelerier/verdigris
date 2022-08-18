@@ -19,6 +19,9 @@
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef VERDIGRIS_WOBJECTIMPL_H
+#define VERDIGRIS_WOBJECTIMPL_H
+
 #pragma once
 
 #include "wobjectdefs.h"
@@ -1424,3 +1427,5 @@ QT_WARNING_POP
 /// (Requires support for c++17 inline variables)
 #define W_NAMESPACE_IMPL_INLINE(...) \
     W_OBJECT_IMPL_COMMON(inline, __VA_ARGS__)
+
+#endif
