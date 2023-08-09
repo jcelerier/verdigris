@@ -29,7 +29,7 @@
 
 namespace w_internal {
 
-#if __cplusplus > 201700L
+#if __cplusplus > 201700L && !defined(__SANITIZE_UNDEFINED__)
 #define W_IF_CONSTEXPR constexpr
 #else
 #define W_IF_CONSTEXPR

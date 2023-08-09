@@ -726,7 +726,7 @@ constexpr size_t count() {
 }
 
 template<size_t L, class State, class TPP>
-constexpr auto stateCount = count<L, State, TPP>();
+static constexpr auto stateCount = count<L, State, TPP>();
 #else
 template<size_t L, class State, class TPP
           , size_t N, size_t M, size_t X = (N+M)/2
